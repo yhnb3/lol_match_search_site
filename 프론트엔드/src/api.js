@@ -10,7 +10,13 @@ const apiCall = async (url) => {
 }
 
 export const getRecentMatches = async (name) => {
-    const url = `http://127.0.0.1:8000/${name}`
+    const url = `http://127.0.0.1:8000/matches/${name}`
     const matches = await apiCall(url)
     return matches
+}
+
+export const getSummonerStatus = async (name) => {
+    const url = `http://127.0.0.1:8000/league/${name}`
+    const status = await apiCall(url)
+    return status
 }

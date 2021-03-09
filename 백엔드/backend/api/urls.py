@@ -2,5 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('<summonerName>/', views.getRecentMatches, name='getRecentMatches'),
+    path('matches/<summonerName>/', views.getRecentMatches, name='getRecentMatches'),
+    path('league/<summonerName>/', views.getSummonerStatus, name='getSummonerStatus'),
 ]

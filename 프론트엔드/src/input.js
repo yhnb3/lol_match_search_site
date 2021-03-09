@@ -1,11 +1,11 @@
 export default function Input(params) {
     this.$input = params.$input
 
-    const getRecentMatches = params.getRecentMatches
+    const searchSummoner = params.searchSummoner
 
     this.$input.addEventListener("keydown", async (res) => {
         if (res.key === "Enter") {
-            await getRecentMatches(res.target.value)
+            await searchSummoner(res.target.value)
         }
     })
 
