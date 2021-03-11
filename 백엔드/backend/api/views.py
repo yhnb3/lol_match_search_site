@@ -39,6 +39,29 @@ def getMatches(matches):
     
     return matchResult
 
+def getSummonerSpells(request):
+    url = "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/summoner.json"
+    response = requests.get(url).json()
+
+    summonerSpellDict = {}
+    for key, item in response["data"].items():
+        key = item["key"]
+        summonerSpellDict[key] = item
+
+    return JsonResponse({"summonerSpells" : summonerSpellDict})
+
+def getChampions(request):
+    url = "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/champion.json"
+    response = requests.get(url).json()
+
+    championsDict = {}
+    for key, item in response["data"].items():
+        key = item["key"]
+        championsDict[key] = item
+
+    return JsonResponse({"champions" : championsDict})
+
+
 def getSummonerStatus(request, summonerName):
     summoner = getAccount(summonerName)
     url = f'https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner["id"]}'

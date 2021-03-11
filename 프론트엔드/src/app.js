@@ -11,14 +11,19 @@ function App(params) {
     this.state = {
         summonerName: "",
         summonerLeague: [],
-        recentMatches: []
+        recentMatches: [],
+        spells: {},
+        champions: {},
     }
 
-    const setState = (name, league, matches) => {
+
+    const setState = (name, league, matches, spells, champions) => {
         this.state = {
             summonerName: name,
             summonerLeague: league,
             recentMatches: matches,
+            spells: spells,
+            champions: champions,
         }
         this.render()
     }
@@ -38,7 +43,7 @@ function App(params) {
     })
 
     const matchList = new MatchList({
-        $matchList: document.querySelector("#match-list")
+        $matchList: document.querySelector("#match-list"),
     })
 
     const nameInput = new Input({
@@ -46,14 +51,16 @@ function App(params) {
         searchSummoner: async function(name) {
             const summonerLeague = await getSummonerStatus(name)
             const recentMatches= await getRecentMatches(name)
-            setState(name, summonerLeague, recentMatches)
+            const spells = await api.getSpells()
+            const champions = await api.getChampions()
+            setState(name, summonerLeague, recentMatches, spells, champions)
         }
     })
 
     this.render = () => {
         nameInput.render()
         summonerLeague.render(this.state.summonerLeague)
-        matchList.render(this.state.recentMatches, this.state.summonerName)
+        matchList.render(this.state.recentMatches, this.state.summonerName, this.state.spells, this.state.champions)
     }
 
     this.render()
