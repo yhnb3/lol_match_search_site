@@ -15,3 +15,11 @@ cors 때문에 애를 먹는 중입니다. django로 서버를 구성하였기�
 ![image-20210311232109621](https://user-images.githubusercontent.com/60080270/110802656-bb715d80-82c1-11eb-8faa-f8560cf58155.png)
 
 서버에서 스펠과 챔피언 api를 만들어서 다음과 같이 유저의 가장 최근 첫 경기에 대한 정보를 가져올 수 있도록 구현 하였습니다.
+
+### 2021-03-12
+
+- 처음 유저를 검색했을때 20개의 match를 불러올 수 있게 수정하였습니다.
+
+- 처음 검색한 match를 기반으로 최근 20경기에 대한 요약을 시각화하여 구현하였습니다
+
+   ![image](https://user-images.githubusercontent.com/60080270/110928941-c3390c80-836a-11eb-9d08-2bf36a8c83f8.png)

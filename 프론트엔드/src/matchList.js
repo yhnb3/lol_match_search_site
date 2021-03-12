@@ -3,7 +3,11 @@ export default function MatchList(params) {
     
 
     this.render = (matches, name, spells, champions) => {
-        console.log(matches, name)
+        console.log(matches)
+        const summaryMatchesString = matches.map((match) => {
+            const summonerMatchResult = match.participants.filter((user) => user.summonerName.toUpperCase() === name.toUpperCase())[0]
+            return summonerMatchResult.stats.win ? `<div class="summary-recent-match win"></div>` :  `<div class="summary-recent-match lose"></div>`
+        }).join('')
         // const htmlString = matches.map((match) => {
         //     const participants = match.participants.map((participant) => participant.summonerName.toUpperCase() === name.toUpperCase() ?
         //     `<p><b>${participant.summonerName}</b>   ${participant.stats.kills}/${participant.stats.deaths}/${participant.stats.assists}</p>`:
@@ -13,7 +17,6 @@ export default function MatchList(params) {
         // }).join('')
         const summonerString = matches.map((match) => {
             const summonerMatchResult = match.participants.filter((user) => user.summonerName.toUpperCase() === name.toUpperCase())[0]
-            console.log(summonerMatchResult)
             const firstSpellId = summonerMatchResult.spell1Id
             const secondSpellId = summonerMatchResult.spell2Id
             const championId = summonerMatchResult.championId
@@ -23,11 +26,14 @@ export default function MatchList(params) {
             const secondSpell = spells.summonerSpells[secondSpellId].id
             
 
-            return `<img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
+            return `<div class="recent-match">
+                    <img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
                     <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">
                     <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${secondSpell}.png">  
-                    <span>${summonerMatchResult.stats.kills}/${summonerMatchResult.stats.deaths}/${summonerMatchResult.stats.assists}</span>`
+                    <span>${summonerMatchResult.stats.kills}/${summonerMatchResult.stats.deaths}/${summonerMatchResult.stats.assists}</span>
+                    </div>`
         }).join('')
-        this.$matchList.innerHTML = summonerString
+        this.$matchList.innerHTML = `<div class="summary-matches">${summaryMatchesString}</div>
+                                    <div>${summonerString}</div>`
     }
 }

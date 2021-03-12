@@ -90,7 +90,7 @@ def getRecentMatches(request, summonerName):
     }
     params = {
         'beginIndex' : 0,
-        'endIndex' : 1
+        'endIndex' : 20
     }
     response = requests.get(url, headers=headers, params=params).json()
     matches = response["matches"]
