@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     #modules
     'rest_framework',
 
+    #cache
+    # 'django-redis',
+
 ]
 
 MIDDLEWARE = [
@@ -154,3 +157,13 @@ STATIC_URL = '/static/'
 
 RIOT_API_KEY = str(os.getenv('RIOT_API_KEY'))
 
+# cache
+CACHES = {  
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

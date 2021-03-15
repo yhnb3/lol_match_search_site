@@ -39,7 +39,17 @@ function App(params) {
     }
 
     const summonerLeague = new League({
-        $league: document.querySelector("#summoner-league")
+        $league: document.querySelector("#summoner-league"),
+        renewalAccount: async function(name) {
+            const message = await api.renewalAccount(name)
+            if (message === "success") {
+                const summonerLeague = await getSummonerStatus(name)
+                const recentMatches= await getRecentMatches(name)
+                const spells = await api.getSpells()
+                const champions = await api.getChampions()
+                setState(name, summonerLeague, recentMatches, spells, champions)
+            }
+        } 
     })
 
     const matchList = new MatchList({

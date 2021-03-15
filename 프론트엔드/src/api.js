@@ -32,3 +32,9 @@ export const getSpells = async () => {
     const spells = await apiCall(url)
     return spells
 }
+
+export const renewalAccount = async (name) => {
+    const url = `http://127.0.0.1:8000/renewal/${name}`
+    const success = await apiCall(url)
+    return success["message"]
+}
