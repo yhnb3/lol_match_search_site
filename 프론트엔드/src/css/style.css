@@ -23,3 +23,44 @@
 .lose{
     background-color: #e2b6b3;    
 }
+
+.loading {
+    visibility: hidden;
+
+    width: 300px;
+    height: 300px;
+    border: 10px solid rgb(255, 255, 255, 0);
+    border-top: 10px solid red;
+    border-radius: 100%;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+
+    animation: spin 0.8s infinite linear;
+}
+
+.show {
+    visibility: visible;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(0deg)
+    }
+    from {
+        transform: rotate(360deg)
+    }
+}
+
+.buttonDisable {
+    cursor: not-allowed;
+}
+
+.inputDisable {
+    pointer-events: none;
+}

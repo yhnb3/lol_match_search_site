@@ -122,6 +122,7 @@ def getRecentMatches(request, summonerName):
 
     return JsonResponse({"matches": recentMatches})
 
+
 def renewalAccount(request, summonerName):
     summoner = getAccount(summonerName)
     matchUrl = f'https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{summoner["accountId"]}'

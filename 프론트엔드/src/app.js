@@ -2,6 +2,7 @@ import Input from "./input.js"
 import * as api from "./api.js"
 import MatchList from "./matchList.js"
 import League from "./league.js"
+import Loading from "./loading.js"
 
 
 function App(params) {
@@ -28,27 +29,24 @@ function App(params) {
         this.render()
     }
 
-    const getSummonerStatus = async (name) => {
-        const summonerLeague = await api.getSummonerStatus(name)
-        return summonerLeague["leagues"]
-    }
 
-    const getRecentMatches = async (name) => {
-        const recentMatches = await api.getRecentMatches(name)
-        return recentMatches["matches"]
-    }
+    const loading = new Loading({
+        $loading: document.querySelector(".loading")
+    })
 
     const summonerLeague = new League({
         $league: document.querySelector("#summoner-league"),
         renewalAccount: async function(name) {
+            loading.show()
             const message = await api.renewalAccount(name)
             if (message === "success") {
-                const summonerLeague = await getSummonerStatus(name)
-                const recentMatches= await getRecentMatches(name)
+                const summonerLeague = await api.getSummonerStatus(name)
+                const recentMatches = await api.getRecentMatches(name)
                 const spells = await api.getSpells()
                 const champions = await api.getChampions()
-                setState(name, summonerLeague, recentMatches, spells, champions)
+                setState(name, summonerLeague["leagues"], recentMatches["matches"], spells, champions)
             }
+            loading.hide()
         } 
     })
 
@@ -59,13 +57,23 @@ function App(params) {
     const nameInput = new Input({
         $input: document.querySelector("#input"),
         searchSummoner: async function(name) {
-            const summonerLeague = await getSummonerStatus(name)
-            const recentMatches= await getRecentMatches(name)
+            loading.show()
+            const summonerLeague = await api.getSummonerStatus(name)
+            const recentMatches = await api.getRecentMatches(name)
             const spells = await api.getSpells()
             const champions = await api.getChampions()
-            setState(name, summonerLeague, recentMatches, spells, champions)
+            loading.hide()
+            setState(name, summonerLeague["leagues"], recentMatches["matches"], spells, champions)
+        },
+        disableInput: function ($input) {
+            $input.classList.add("inputDisable")
+        },
+        ableInput: function ($input) {
+            $input.classList.remove("inputDisable")
         }
     })
+
+   
 
     this.render = () => {
         nameInput.render()
