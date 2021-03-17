@@ -77,8 +77,8 @@ def getChampions(request):
 
 def getSummonerStatus(request, summonerName):
     summoner = getAccount(summonerName)
-    summonerLeague = cache.get(f'league_{summoner["id"]}')
-    if not summonerLeague:
+    leagues = cache.get(f'league_{summoner["id"]}')
+    if not leagues:
         url = f'https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner["id"]}'
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
@@ -88,9 +88,15 @@ def getSummonerStatus(request, summonerName):
             "X-Riot-Token": RIOT_API_KEY
         }
         summonerLeague = requests.get(url, headers=headers).json()
-        cache.set(f'league_{summoner["id"]}', summonerLeague)
-
-    return JsonResponse({"leagues": summonerLeague})
+        leagues = {}
+        leagues["name"] = summonerName
+        for league in summonerLeague:
+            if league["queueType"] == "RANKED_SOLO_5x5":
+                leagues["solo"] = league
+            elif league["queueType"] == "RANKED_FLEX_SR":
+                leagues["flex"] = league
+        cache.set(f'league_{summoner["id"]}', leagues)
+    return JsonResponse(leagues)
 
 
 

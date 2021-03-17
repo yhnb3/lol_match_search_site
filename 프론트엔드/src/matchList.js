@@ -24,13 +24,19 @@ export default function MatchList(params) {
             const champion = champions.champions[championId].id
             const firstSpell = spells.summonerSpells[firstSpellId].id
             const secondSpell = spells.summonerSpells[secondSpellId].id
-            
+
+            const items = [summonerMatchResult.stats.item0, summonerMatchResult.stats.item1, summonerMatchResult.stats.item2, summonerMatchResult.stats.item3, summonerMatchResult.stats.item4, summonerMatchResult.stats.item5]
+            const itemString = items.map((item) => item === 0 ?  
+                `<div class="summoner-item"></div>` :
+                `<div class="summoner-item"><img class="summoner-item image" src="http://ddragon.leagueoflegends.com/cdn/11.6.1/img/item/${item}.png"></div>`
+            ).join('')
 
             return `<div class="recent-match">
                     <img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
                     <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">
                     <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${secondSpell}.png">  
                     <span>${summonerMatchResult.stats.kills}/${summonerMatchResult.stats.deaths}/${summonerMatchResult.stats.assists}</span>
+                    ${itemString}
                     </div>`
         }).join('')
         this.$matchList.innerHTML = `<div class="summary-matches">${summaryMatchesString}</div>

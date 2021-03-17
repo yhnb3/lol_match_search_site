@@ -7,11 +7,10 @@ import Loading from "./loading.js"
 
 function App(params) {
     this.$app = params.$app
-    this.matchState = params.initialMatchState
 
     this.state = {
         summonerName: "",
-        summonerLeague: [],
+        summonerLeague: {"name": ""},
         recentMatches: [],
         spells: {},
         champions: {},
@@ -44,7 +43,7 @@ function App(params) {
                 const recentMatches = await api.getRecentMatches(name)
                 const spells = await api.getSpells()
                 const champions = await api.getChampions()
-                setState(name, summonerLeague["leagues"], recentMatches["matches"], spells, champions)
+                setState(name, summonerLeague, recentMatches["matches"], spells, champions)
             }
             loading.hide()
         } 
@@ -63,7 +62,7 @@ function App(params) {
             const spells = await api.getSpells()
             const champions = await api.getChampions()
             loading.hide()
-            setState(name, summonerLeague["leagues"], recentMatches["matches"], spells, champions)
+            setState(name, summonerLeague, recentMatches["matches"], spells, champions)
         },
         disableInput: function ($input) {
             $input.classList.add("inputDisable")
@@ -79,6 +78,7 @@ function App(params) {
         nameInput.render()
         summonerLeague.render(this.state.summonerLeague)
         matchList.render(this.state.recentMatches, this.state.summonerName, this.state.spells, this.state.champions)
+        
     }
 
     this.render()
@@ -87,5 +87,4 @@ function App(params) {
 
 new App({
     $app: document.querySelector("#app"),
-    initialMatchState: []
 })
