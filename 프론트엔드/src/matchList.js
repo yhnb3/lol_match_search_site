@@ -15,7 +15,7 @@ export default function MatchList(params) {
         //     ).join('')
         //     return `<div id="match">${participants}</div>`
         // }).join('')
-        const summonerString = matches.map((match) => {
+        const summonerMatchString = matches.map((match) => {
             const summonerMatchResult = match.participants.filter((user) => user.summonerName.toUpperCase() === name.toUpperCase())[0]
             const firstSpellId = summonerMatchResult.spell1Id
             const secondSpellId = summonerMatchResult.spell2Id
@@ -33,13 +33,18 @@ export default function MatchList(params) {
 
             return `<div class="recent-match">
                     <img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
-                    <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">
-                    <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${secondSpell}.png">  
+                    <div class="summoner-spell">
+                        <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">
+                        <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${secondSpell}.png">
+                    </div>
                     <span>${summonerMatchResult.stats.kills}/${summonerMatchResult.stats.deaths}/${summonerMatchResult.stats.assists}</span>
-                    ${itemString}
+                    <div class="summoner-items">${itemString}</div>
                     </div>`
         }).join('')
-        this.$matchList.innerHTML = `<div class="summary-matches">${summaryMatchesString}</div>
-                                    <div>${summonerString}</div>`
+        this.$matchList.innerHTML = `<div class="summary-matches">
+                                        <p>최근전적</p>
+                                        <div class="recent-matches-visuality">${summaryMatchesString}</div>
+                                    </div>
+                                    <div class="summoner-match">${summonerMatchString}</div>`
     }
 }
