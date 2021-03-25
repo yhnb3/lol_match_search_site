@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 
+
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 
@@ -23,7 +24,7 @@ def getAccount(name):
     accountInfo = cache.get(f'account_{name}')
     if not accountInfo:
         accountInfo = requests.get(url, headers=headers)
-        cache.set(f'account_{name}', accountInfo)
+    cache.set(f'account_{name}', accountInfo)
 
     return accountInfo.json()
 
@@ -56,7 +57,7 @@ def getSummonerSpells(request):
         for key, item in response["data"].items():
             key = item["key"]
             spells[key] = item
-        cache.set('spells', spells)
+    cache.set('spells', spells)
 
     return JsonResponse({"summonerSpells" : spells})
 
@@ -70,10 +71,9 @@ def getChampions(request):
         for key, item in response["data"].items():
             key = item["key"]
             championsDict[key] = item
-        cache.set('champions', championsDict)
+    cache.set('champions', championsDict)
 
     return JsonResponse({"champions" : championsDict})
-
 
 def getSummonerStatus(request, summonerName):
     summoner = getAccount(summonerName)
@@ -90,14 +90,15 @@ def getSummonerStatus(request, summonerName):
         summonerLeague = requests.get(url, headers=headers).json()
         leagues = {}
         leagues["name"] = summonerName
+        leagues["summonerLevel"] = summoner["summonerLevel"]
+        leagues["summonerIcon"] = summoner["profileIconId"]
         for league in summonerLeague:
             if league["queueType"] == "RANKED_SOLO_5x5":
                 leagues["solo"] = league
             elif league["queueType"] == "RANKED_FLEX_SR":
                 leagues["flex"] = league
-        cache.set(f'league_{summoner["id"]}', leagues)
+    cache.set(f'league_{summoner["id"]}', leagues)
     return JsonResponse(leagues)
-
 
 
 def getRecentMatches(request, summonerName):
@@ -124,7 +125,7 @@ def getRecentMatches(request, summonerName):
         for match in recentMatches:
             for idx in range(10):
                 match["participants"][idx]["summonerName"] = match["participantIdentities"][idx]["player"]["summonerName"]
-        cache.set(f'matches_{summoner["accountId"]}', recentMatches)
+    cache.set(f'matches_{summoner["accountId"]}', recentMatches)
 
     return JsonResponse({"matches": recentMatches})
 
@@ -153,6 +154,15 @@ def renewalAccount(request, summonerName):
             match["participants"][idx]["summonerName"] = match["participantIdentities"][idx]["player"]["summonerName"]
     cache.set(f'matches_{summoner["accountId"]}', recentMatches)
     summonerLeague = requests.get(leagueUrl, headers=headers).json()
-    cache.set(f'league_{summoner["id"]}', summonerLeague)
+    leagues = {}
+    leagues["name"] = summonerName
+    leagues["summonerLevel"] = summoner["summonerLevel"]
+    leagues["summonerIcon"] = summoner["profileIconId"]
+    for league in summonerLeague:
+        if league["queueType"] == "RANKED_SOLO_5x5":
+            leagues["solo"] = league
+        elif league["queueType"] == "RANKED_FLEX_SR":
+            leagues["flex"] = league
+    cache.set(f'league_{summoner["id"]}', leagues)
 
     return JsonResponse({'message':'success'}, status = 200)

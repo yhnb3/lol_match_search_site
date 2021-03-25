@@ -78,10 +78,7 @@ function App(params) {
         nameInput.render()
         summonerLeague.render(this.state.summonerLeague)
         matchList.render(this.state.recentMatches, this.state.summonerName, this.state.spells, this.state.champions)
-        
     }
-
-    this.render()
 }
 
 

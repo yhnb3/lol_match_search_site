@@ -12,7 +12,12 @@ export default function League(params) {
 
     this.render = (summonerLeague) => {
         if (summonerLeague.name !== "") {
-            const userHtmlString = `<p>${summonerLeague.name}</p>`
+            const userHtmlString = `<img class="user-info-icon" src="http://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/${summonerLeague.summonerIcon}.png">
+                                    <div class="user-info-p">
+                                        <p class="user-info-name">${summonerLeague.name}</p>
+                                        <p class="user-info-level">레벨: ${summonerLeague.summonerLevel}</p>
+                                        <button class="renewal-button" data-name="${summonerLeague.name}">전적 갱신</button>
+                                    </div>`
             const soloWinLate = !!summonerLeague.solo ? parseInt(summonerLeague.solo.wins / (summonerLeague.solo.wins + summonerLeague.solo.losses) * 100) : undefined
             const soloHtmlString = !!summonerLeague.solo ? 
                                     `<div class="summoner-solo-rank">
@@ -32,15 +37,6 @@ export default function League(params) {
                                     <p>${summonerLeague.flex.wins}승 ${summonerLeague.flex.losses}패 / 승률 : ${flexWinLate}%
                                     </div>` :
                                     `<div class="summoner-flex-rank">정보없음</div>`
-            // if (summonerLeague.length !== 0) {
-            //     const winLate =  parseInt(summonerLeague[1].wins / (summonerLeague[1].wins + summonerLeague[1].losses) * 100)
-            //     const htmlString = `<img class="solo-rank-emblem"src="../image/ranked-emblems/${summonerLeague[1].tier}.png"><span class="summoner-name">${summonerLeague[1].summonerName}</span>
-            //                         <p>${summonerLeague[1].tier} ${summonerLeague[1].rank} / <b>${summonerLeague[1].leaguePoints}LP</b></p>
-            //                         <p>${summonerLeague[1].wins}승 ${summonerLeague[1].losses}패 / 승률 : ${winLate}%
-            //                         <button class="renewal-button" data-name="${summonerLeague[1].summonerName}">전적 갱신</button>`
-            //     this.$league.innerHTML = htmlString
-            // }
-            // htmlString += `<button class="renewal-button" data-name="${summonerLeague.name}">전적 갱신</button>`
             const leagueHtmlString = `<div class="user-information">${userHtmlString}</div>
                                      <div class="rank-information">${soloHtmlString}${flexHtmlString}</div>`
             this.$league.innerHTML = leagueHtmlString
