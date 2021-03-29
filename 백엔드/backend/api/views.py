@@ -122,9 +122,12 @@ def getRecentMatches(request, summonerName):
         
         recentMatches = getMatches(matches)
         
+        idx = 0
         for match in recentMatches:
+            print(idx)
             for idx in range(10):
                 match["participants"][idx]["summonerName"] = match["participantIdentities"][idx]["player"]["summonerName"]
+            idx += 1
     cache.set(f'matches_{summoner["accountId"]}', recentMatches)
 
     return JsonResponse({"matches": recentMatches})
@@ -144,7 +147,7 @@ def renewalAccount(request, summonerName):
     }
     params = {
         'beginIndex' : 0,
-        'endIndex' : 20
+        'endIndex' : 20,
     }
     matchResponse = requests.get(matchUrl, headers=headers, params=params).json()
     matches = matchResponse["matches"]
