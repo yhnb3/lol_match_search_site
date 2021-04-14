@@ -8,13 +8,6 @@ export default function MatchList(params) {
             const summonerMatchResult = match.participants.filter((user) => user.summonerName.toUpperCase() === name.toUpperCase())[0]
             return summonerMatchResult.stats.win ? `<div class="summary-recent-match win"></div>` :  `<div class="summary-recent-match lose"></div>`
         }).join('')
-        // const htmlString = matches.map((match) => {
-        //     const participants = match.participants.map((participant) => participant.summonerName.toUpperCase() === name.toUpperCase() ?
-        //     `<p><b>${participant.summonerName}</b>   ${participant.stats.kills}/${participant.stats.deaths}/${participant.stats.assists}</p>`:
-        //     `<p>${participant.summonerName}  ${participant.stats.kills}/${participant.stats.deaths}/${participant.stats.assists}</p>`
-        //     ).join('')
-        //     return `<div id="match">${participants}</div>`
-        // }).join('')
         const summonerMatchString = matches.map((match) => {
             const summonerMatchResult = match.participants.filter((user) => user.summonerName.toUpperCase() === name.toUpperCase())[0]
             const firstSpellId = summonerMatchResult.spell1Id
@@ -31,7 +24,17 @@ export default function MatchList(params) {
                 `<div class="summoner-item"><img class="summoner-item image" src="http://ddragon.leagueoflegends.com/cdn/11.6.1/img/item/${item}.png"></div>`
             ).join('')
 
-            return `<div class="recent-match">
+            return summonerMatchResult.stats.win ? 
+                    `<div class="recent-match win">
+                    <img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
+                    <div class="summoner-spell">
+                        <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">
+                        <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${secondSpell}.png">
+                    </div>
+                    <span>${summonerMatchResult.stats.kills}/${summonerMatchResult.stats.deaths}/${summonerMatchResult.stats.assists}</span>
+                    <div class="summoner-items">${itemString}</div>
+                    </div>` :
+                    `<div class="recent-match lose">
                     <img class="champion" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${champion}.png">
                     <div class="summoner-spell">
                         <img class="summoner-spell" src="http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${firstSpell}.png">

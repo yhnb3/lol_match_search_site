@@ -3,6 +3,7 @@ import * as api from "./api.js"
 import MatchList from "./matchList.js"
 import League from "./league.js"
 import Loading from "./loading.js"
+import "./css/style.css"
 
 
 function App(params) {
