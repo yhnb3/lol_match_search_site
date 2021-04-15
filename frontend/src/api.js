@@ -22,13 +22,13 @@ export const getSummonerStatus = async (name) => {
 }
 
 export const getChampions = async () => {
-    const url = `http://127.0.0.1:8000/api/champions`
+    const url = "http://127.0.0.1:8000/api/champions"
     const champions = await apiCall(url)
     return champions
 }
 
 export const getSpells = async () => {
-    const url = `http://127.0.0.1:8000/api/spells`
+    const url = "http://127.0.0.1:8000/api/spells"
     const spells = await apiCall(url)
     return spells
 }
