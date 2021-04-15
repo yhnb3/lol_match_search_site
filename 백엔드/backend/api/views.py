@@ -29,7 +29,7 @@ def getAccount(name):
     return accountInfo.json()
 
 def getMatches(matches):
-    url = 'https://kr.api.riotgames.com//lol/match/v4/matches/'
+    url = 'https://kr.api.riotgames.com/lol/match/v4/matches/'
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -124,7 +124,6 @@ def getRecentMatches(request, summonerName):
         
         idx = 0
         for match in recentMatches:
-            print(idx)
             for idx in range(10):
                 match["participants"][idx]["summonerName"] = match["participantIdentities"][idx]["player"]["summonerName"]
             idx += 1

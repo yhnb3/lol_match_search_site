@@ -10,31 +10,31 @@ const apiCall = async (url) => {
 }
 
 export const getRecentMatches = async (name) => {
-    const url = `http://127.0.0.1:8000/api/matches/${name}`
+    const url = `http://127.0.0.1:8000/api/matches/${name}/`
     const matches = await apiCall(url)
     return matches
 }
 
 export const getSummonerStatus = async (name) => {
-    const url = `http://127.0.0.1:8000/api/league/${name}`
+    const url = `http://127.0.0.1:8000/api/league/${name}/`
     const status = await apiCall(url)
     return status
 }
 
 export const getChampions = async () => {
-    const url = "http://127.0.0.1:8000/api/champions"
+    const url = "http://127.0.0.1:8000/api/champions/"
     const champions = await apiCall(url)
     return champions
 }
 
 export const getSpells = async () => {
-    const url = "http://127.0.0.1:8000/api/spells"
+    const url = "http://127.0.0.1:8000/api/spells/"
     const spells = await apiCall(url)
     return spells
 }
 
 export const renewalAccount = async (name) => {
-    const url = `http://127.0.0.1:8000/api/renewal/${name}`
+    const url = `http://127.0.0.1:8000/api/renewal/${name}/`
     const success = await apiCall(url)
     return success["message"]
 }
