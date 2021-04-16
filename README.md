@@ -70,6 +70,7 @@ cors 때문에 애를 먹는 중입니다. django로 서버를 구성하였기�
 
 - `Netlify`를 이용하여 프론트엔드를 배포하였습니다.
 - 서버 쪽에 `api`를 요청할때 url 마지막에 "/"를 추가하지 않아서 제대로 api요청이 되지 않는 오류를 해결하였습니다.
+- [https://mancityballboy.netlify.app](https://mancityballboy.netlify.app/) 사이트 주소입니다.
 
 ### bug
 

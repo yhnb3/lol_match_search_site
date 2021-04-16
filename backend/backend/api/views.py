@@ -21,12 +21,16 @@ def getAccount(name):
         "Origin": "https://developer.riotgames.com",
         "X-Riot-Token": RIOT_API_KEY
     }
+
     accountInfo = cache.get(f'account_{name}')
     if not accountInfo:
-        accountInfo = requests.get(url, headers=headers)
+        accountInfo = requests.get(url, headers=headers)    
+        if accountInfo.status_code == 404:
+            return accountInfo.json()["status"]
+        accountInfo = accountInfo.json()
+        accountInfo["status_code"] = 200
     cache.set(f'account_{name}', accountInfo)
-
-    return accountInfo.json()
+    return accountInfo
 
 def getMatches(matches):
     url = 'https://kr.api.riotgames.com/lol/match/v4/matches/'
@@ -77,6 +81,8 @@ def getChampions(request):
 
 def getSummonerStatus(request, summonerName):
     summoner = getAccount(summonerName)
+    if summoner['status_code'] == 404:
+        return JsonResponse(summoner)
     leagues = cache.get(f'league_{summoner["id"]}')
     if not leagues:
         url = f'https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner["id"]}'
@@ -97,6 +103,7 @@ def getSummonerStatus(request, summonerName):
                 leagues["solo"] = league
             elif league["queueType"] == "RANKED_FLEX_SR":
                 leagues["flex"] = league
+    leagues['status_code'] = 200
     cache.set(f'league_{summoner["id"]}', leagues)
     return JsonResponse(leagues)
 

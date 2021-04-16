@@ -14,7 +14,7 @@ function App(params) {
         summonerLeague: {"name": ""},
         recentMatches: [],
         spells: {},
-        champions: {},
+        champions: {}
     }
 
 
@@ -59,11 +59,17 @@ function App(params) {
         searchSummoner: async function(name) {
             loading.show()
             const summonerLeague = await api.getSummonerStatus(name)
-            const recentMatches = await api.getRecentMatches(name)
-            const spells = await api.getSpells()
-            const champions = await api.getChampions()
-            loading.hide()
-            setState(name, summonerLeague, recentMatches["matches"], spells, champions)
+            if (summonerLeague["status_code"] === 404) {
+                loading.hide()
+                setState(name, summonerLeague, [], [], [] )
+            }
+            else {
+                const recentMatches = await api.getRecentMatches(name)
+                const spells = await api.getSpells()
+                const champions = await api.getChampions()
+                loading.hide()
+                setState(name, summonerLeague, recentMatches["matches"], spells, champions)
+            }
         },
         disableInput: function ($input) {
             $input.classList.add("inputDisable")
