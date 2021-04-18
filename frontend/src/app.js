@@ -26,6 +26,7 @@ function App(params) {
             spells: spells,
             champions: champions,
         }
+        sessionStorage.setItem('userName', name)
         this.render()
     }
 
@@ -86,6 +87,21 @@ function App(params) {
         summonerLeague.render(this.state.summonerLeague)
         matchList.render(this.state.recentMatches, this.state.summonerName, this.state.spells, this.state.champions)
     }
+
+    this.init = async () => {
+        if (sessionStorage.getItem('userName')) {
+            const name = sessionStorage.getItem('userName')
+            loading.show()
+            const summonerLeague = await api.getSummonerStatus(name)
+            const recentMatches = await api.getRecentMatches(name)
+            const spells = await api.getSpells()
+            const champions = await api.getChampions()
+            loading.hide()
+            setState(name, summonerLeague, recentMatches["matches"], spells, champions)
+        }
+    }
+
+    this.init()
 }
 
 
