@@ -81,6 +81,7 @@ def getChampions(request):
 
 def getSummonerStatus(request, summonerName):
     summoner = getAccount(summonerName)
+    print(summoner)
     if summoner['status_code'] == 404:
         return JsonResponse(summoner)
     leagues = cache.get(f'league_{summoner["id"]}')
