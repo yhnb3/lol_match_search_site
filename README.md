@@ -85,6 +85,19 @@ cors 때문에 애를 먹는 중입니다. django로 서버를 구성하였기�
 
 - aws lightsail을 이용해서 서버 배포를 시도하고 있습니다... 잘안되네융...
 
+### 2021-04-20
+
+- ~~후.. apach 설정까지 완료했지만 forbidden이 뜬다. 쉽지 않다. 무언가 잘못 된것같다.~~
+- 일단 apach로 배포까진 했는데 Redis가 잘 적용되지 않으니 일단 Redis가 적용된 방법이 포함된 NginX로 시도 해봐야 할 것 같다.
+
+### 2021-04-21
+
+- 현재 Aws lightsail 내에서 gunicorn으로 wsgi를 실행 시키는 과정에서 gunicorn 설정에 무언가 오류가 생겼습니다.
+
+  `gunicorn service Failed to determine user credentials: No such process`  다음과 같은 오류가 생겨서 구글링을 해봣지만
+
+  비교적 최근에 질문글들이 올라왔는데 아직까지 제대로된 해결방법이 나와있지 않아서 내일 다시 세팅을 새로이 해봐야할 것 같습니다.
+
 ### bug
 
 - ~~자유 랭크와 솔로 랭크 둘중 하나라도 활성화 되어있지 않을시 오류~~
